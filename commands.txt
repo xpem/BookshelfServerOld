@@ -3,6 +3,8 @@ npm i express
 npm i --save-dev nodemon
 npm i ejs
 npm install body-parser
+npm i firebase-admin
+
 
 git init
 /*adicionar git ignore*/
