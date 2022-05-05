@@ -1,22 +1,12 @@
 const express = require("express");
 const BooksService = require("../Services/BooksService");
 const UsersService = require("../Services/UsersService");
+
+const BoosController = require("../Controllers/BooksControllers");
 const router = express.Router();
 require("dotenv/config");
 
-router.get("/", async (req, res) => {
-  BooksService.getBooks("-MFu_0T5wSTO0l0sZx5l", "3", "").then(function (
-    result
-  ) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.setHeader("Content-Type", "application/json");
-    res.json(JSON.stringify(result));
-  });
-});
+router.get("/", BoosController.GetBooks);
 
 router.get("/Login", async (req, res) => {
   // UsersService.GetUserByNickAndPassworld("EMANUEL","6789").then((result) => console.log(result))
@@ -25,7 +15,7 @@ router.get("/Login", async (req, res) => {
 router.post("/CreateUser", async (req, res) => {
   var { Email, Nick, Passworld, UserName, Uid } = req.body;
 
-  UsersService.CreateUserProfile(Email, Nick, Passworld, UserName, Uid);
+  // UsersService.CreateUserProfile(Email, Nick, Passworld, UserName, Uid);
 });
 
 module.exports = router;
