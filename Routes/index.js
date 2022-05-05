@@ -19,7 +19,13 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/Login", async (req, res) => {
-  UsersService.GetUserByNickAndPassworld("EMANUEL","6789").then((result) => console.log(result))  
+  // UsersService.GetUserByNickAndPassworld("EMANUEL","6789").then((result) => console.log(result))
+});
+
+router.post("/CreateUser", async (req, res) => {
+  var { Email, Nick, Passworld, UserName, Uid } = req.body;
+
+  UsersService.CreateUserProfile(Email, Nick, Passworld, UserName, Uid);
 });
 
 module.exports = router;

@@ -1,9 +1,24 @@
 const fb = require("firebase-admin");
 require("dotenv/config");
 
+var encryptPassworld = (passworld) => {
+  var bcrypt = require("bcryptjs");
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(passworld, salt);
+  return hash;
+};
+
+// var passworld = "1234";
+
 // var bcrypt = require('bcryptjs');
 // var salt = bcrypt.genSaltSync(10);
-// var hash = bcrypt.hashSync("B4c0/\/", salt);
+// var hash = bcrypt.hashSync("1234", salt);
+
+// console.log(hash);
+
+// if(bcrypt.compareSync("1234", hash)){
+// console.log("passou na comparação");
+// } 
 
 var GetUserByEmailAndNick = async (email, nick) => {
   var data = [];
@@ -68,12 +83,16 @@ exports.GetUserByNickAndPassworld = async (nick, passworld) => {
   return data;
 };
 
-exports.AddUser = async () => {
-  var data = [];
-  try {
-    
-  } catch (err) {
-    console.log(err);
-  }
-  return data;
+exports.CreateUserProfile = async (Nick, UserName, Email, Passworld, Uid) => {
+  var encryptedPassworld = encryptPassworld(Passworld);
+
+  await db
+    .ref("Users")
+    .push({ Email, Nick, encryptedPassworld, UserName, Uid })
+    .then(function () {
+      console.log("Users adicionado");
+    })
+    .catch(function (error) {
+      console.log("erro ao adicionar user" + error);
+    });
 };
