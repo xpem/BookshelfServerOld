@@ -4,7 +4,7 @@ npm i --save-dev nodemon
 npm i ejs
 npm install body-parser
 npm i firebase-admin
-
+npm i dotenv
 
 git init
 /*adicionar git ignore*/
