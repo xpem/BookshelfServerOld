@@ -1,5 +1,5 @@
 const express = require('express');
-const routes = require('./routes/index');
+const routes = require('./Routes/index');
 const bodyParser = require("body-parser");
 const fb = require("firebase-admin");
 const app = express();
