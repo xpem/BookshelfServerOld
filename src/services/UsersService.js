@@ -27,7 +27,7 @@ var GetUserByEmailAndNick = async (email, nick) => {
     //by email
     await fb
       .database()
-      .ref("Users")
+      .ref("UsersBeta")
       .orderByChild("Email")
       .equalTo(email)
       .once("value", (snapshot) => {
@@ -87,18 +87,27 @@ exports.CreateUserProfile = async (Email,Nick, UserName, Passworld, Uid) => {
   var encryptedPassworld = encryptPassworld(Passworld);
 
   console.log({ Email, Nick, encryptedPassworld, UserName, Uid });
+  var res;
+  var resGetUserByEmailAndNick  = GetUserByEmailAndNick(Email,Nick);
 
-  var res = await fb
+  if((await resGetUserByEmailAndNick).length > 0)
+  {
+    //User already exists in db
+    return 200;
+  }
+  else{
+  res = await fb
     .database()
     .ref("UsersBeta")
     .push({ Email, Nick, encryptedPassworld, UserName, Uid })
     .then(function () {
       console.log("User added");
+      //created
       return 201;
     })
     .catch(function (error) {
+      //error
       return 400;
     });
-
-  return res;
+  }
 };
