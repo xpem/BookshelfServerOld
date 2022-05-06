@@ -1,16 +1,12 @@
 const express = require('express');
-const routes = require('./Routes/index');
-const bodyParser = require("body-parser");
+const routes = require('./routes');
+// const bodyParser = require("body-parser");
 const fb = require("firebase-admin");
+
 const app = express();
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use('/', routes);
-const path = require('path');
-app.set('views', path.join(__dirname, './views'));
-
-app.set('view engine', 'ejs');
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(routes);
 
 const db = fb
   .initializeApp({

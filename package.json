@@ -2,11 +2,11 @@
   "name": "bookshelfserver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon ./start.js",
-    "start": "node ./start.js"
+    "watch": "nodemon ./src/start.js",
+    "start": "node ./src/start.js"
   },
   "author": "",
   "license": "ISC",

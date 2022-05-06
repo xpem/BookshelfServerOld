@@ -11,7 +11,14 @@ require("dotenv/config");
 
 // if(bcrypt.compareSync("1234", hash)){
 // console.log("passou na comparação");
-// } 
+// }
+
+var encryptPassworld = (Passworld) => {
+  var bcrypt = require("bcryptjs");
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(Passworld, salt);
+  return hash;
+};
 
 var GetUserByEmailAndNick = async (email, nick) => {
   var data = [];
@@ -76,18 +83,22 @@ exports.GetUserByNickAndPassworld = async (nick, passworld) => {
   return data;
 };
 
-exports.CreateUserProfile = async (Nick, UserName, Email, Passworld, Uid) => {
+exports.CreateUserProfile = async (Email,Nick, UserName, Passworld, Uid) => {
   var encryptedPassworld = encryptPassworld(Passworld);
 
-console.log({ Email, Nick, encryptedPassworld, UserName, Uid });
+  console.log({ Email, Nick, encryptedPassworld, UserName, Uid });
 
-  // await db
-  //   .ref("UsersBeta")
-  //   .push({ Email, Nick, encryptedPassworld, UserName, Uid })
-  //   .then(function () {
-  //     console.log("Users adicionado");
-  //   })
-  //   .catch(function (error) {
-  //     console.log("erro ao adicionar user" + error);
-  //   });
+  var res = await fb
+    .database()
+    .ref("UsersBeta")
+    .push({ Email, Nick, encryptedPassworld, UserName, Uid })
+    .then(function () {
+      console.log("User added");
+      return 201;
+    })
+    .catch(function (error) {
+      return 400;
+    });
+
+  return res;
 };
