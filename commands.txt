@@ -8,3 +8,8 @@ npm i dotenv
 
 git init
 /*adicionar git ignore*/
+
+
+
+heroku git:remote -a <heroku app name>
+git push heroku main

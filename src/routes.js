@@ -1,7 +1,6 @@
 const express = require("express");
-
-const BoosController = require("./controllers/BooksController");
-const UserController = require("./controllers/UsersController");
+const BoosController = require("./Controllers/BooksController");
+const UserController = require("./Controllers/UsersController");
 const router = express.Router();
 require("dotenv/config");
 
