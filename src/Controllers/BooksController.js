@@ -1,4 +1,4 @@
-const BooksService = require("../Services/BooksService");
+const BooksService = require("../services/BooksService");
 
 var GetUidByToken = (idToken) => {
   return new Promise((resolve, reject) => {
