@@ -1,0 +1,40 @@
+
+all need header <Authorization>
+
+/InsertBook
+post
+
+body
+{
+	"Authors": "Jhon Green",
+	"Rating": {
+		"Comment": "",
+		"Rate": 4		
+	},
+    "Situation": 3,
+	"Genre": "Romance",
+	"Isbn": "0Ce7HDOnNFMC",
+	"Pages": 255,
+	"Title": "A culpa é das estrelas",
+	"Year": 2014
+}
+
+/GetBooksByLastUpdate
+header <lastUpdate>
+0001-01-01T00:00:00
+
+
+UpdateBook/<bookKey>>
+{
+	"Authors": "Jhon Green",
+	"Rating": {
+		"Comment": "",
+		"Rate": 4		
+	},
+    "Situation": 3,
+	"Genre": "Romance",
+	"Isbn": "0Ce7HDOnNFMC",
+	"Pages": 255,
+	"Title": "A culpa é das estrelas",
+	"Year": 2014
+}

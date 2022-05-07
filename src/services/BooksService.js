@@ -1,63 +1,65 @@
 const fb = require("firebase-admin");
 require("dotenv/config");
+const BooksTableName = "BooksGama";
 
-// exports.getBooksByLastUpdate = async (userKey, lastUpdate) => {
-//   var data = [];
-//   try {
-//     await fb
-//       .database()
-//       .ref("Books")
-//       .orderByChild("UserKey")
-//       .equalTo(userKey)
-//       .once("value", (snapshot) => {
-//         if (snapshot != null) {
-//           snapshot.forEach((childSnapshot) => {
-//             // console.log(childSnapshot.val().LastUpdate);
-//             if (childSnapshot.val().LastUpdate >= lastUpdate) {
-//               console.log(childSnapshot.val());
-//               data.push({
-//                 id: childSnapshot.key,
-//                 ...childSnapshot.val(),
-//               });
-//             }
-//           });
-//         } else {
-//           console.log("tabela nula");
-//         }
-//       });
-//   } catch (err) {
-//     console.log(err);
-//   }
-//   return data;
-// };
+exports.getBooksByLastUpdate = async (uid, lastUpdate) => {
+  var data = [];
+  try {
+    await fb
+      .database()
+      .ref(BooksTableName)
+      .orderByChild("Uid")
+      .equalTo(uid)
+      .once("value", (snapshot) => {
+        if (snapshot != null) {
+          snapshot.forEach((childSnapshot) => {
+            //to do - remove uid from data response
+            if (childSnapshot.val().LastUpdate >= lastUpdate) {
+              console.log(childSnapshot.val());
+              data.push({
+                bookKey: childSnapshot.key,
+                ...childSnapshot.val(),
+              });
+            }
+          });
+        } else {
+          console.log("tabela nula");
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
 
 var getBooksByTitle = async (uid, title) => {
-    var data = [];
-    try {
-    await  fb.database()
-        .ref("BooksGama")
-        .orderByChild("Uid")
-        .equalTo(uid)
-        .once("value", (snapshot) => {
-          if (snapshot != null) {
-            snapshot.forEach((childSnapshot) => {
-              // console.log(childSnapshot.val().LastUpdate);
-               if (childSnapshot.val().Title == title) {
-                console.log(childSnapshot.val());
-                data.push({
-                  id: childSnapshot.key,
-                  ...childSnapshot.val(),
-                });
-               }
-            });
-          } else {
-            console.log("tabela nula");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-    return data;
+  var data = [];
+  try {
+    await fb
+      .database()
+      .ref(BooksTableName)
+      .orderByChild("Uid")
+      .equalTo(uid)
+      .once("value", (snapshot) => {
+        if (snapshot != null) {
+          snapshot.forEach((childSnapshot) => {
+            // console.log(childSnapshot.val().LastUpdate);
+            if (childSnapshot.val().Title == title) {
+              console.log(childSnapshot.val());
+              data.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val(),
+              });
+            }
+          });
+        } else {
+          console.log("tabela nula");
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
 };
 
 //{  Authors,  Situation,  Genre,  Inactive,  Isbn,  LastUpdate,  Pages,  SubTitle,  Title,  UserKey,  Uid,  Volume,  Year}
@@ -68,7 +70,7 @@ exports.InsertBook = async (Book) => {
         resolve({ Res: 409, Message: "Book already added" });
       } else {
         fb.database()
-          .ref("BooksGama")
+          .ref(BooksTableName)
           .push(Book)
           .then(function () {
             resolve({ Res: 200 });
@@ -79,16 +81,21 @@ exports.InsertBook = async (Book) => {
       }
     });
   });
+};
 
-  // await db
-  //   .ref("BooksGama")
-  //   .push(Book)
-  //   .then(function () {
-  //     return { Response: 200 };
-  //   })
-  //   .catch(function (error) {
-  //     return { Response: 400, Message: error };
-  //   });
+exports.UpdateBook = async (book, bookKey) => {
+  return new Promise((resolve, reject) => {
+    fb.database()
+      .ref(BooksTableName)
+      .child(bookKey)
+      .update(book)
+      .then(function () {
+        resolve({ Res: 200 });
+      })
+      .catch(function (error) {
+        resolve({ Res: 400, Message: error });
+      });
+  });
 };
 
 // exports.CreateUserProfile = async (Email,Nick, UserName, Passworld, Uid) => {
