@@ -15,9 +15,9 @@ exports.getBooksByLastUpdate = async (uid, lastUpdate) => {
           snapshot.forEach((childSnapshot) => {
             //to do - remove uid from data response
             if (childSnapshot.val().LastUpdate >= lastUpdate) {
-              console.log(childSnapshot.val());
+              console.log(childSnapshot.key);
               data.push({
-                bookKey: childSnapshot.key,
+                BookKey: childSnapshot.key,
                 ...childSnapshot.val(),
               });
             }
@@ -48,7 +48,7 @@ var getBooksByTitle = async (uid, title) => {
               console.log(childSnapshot.val());
               data.push({
                 id: childSnapshot.key,
-                ...childSnapshot.val(),
+                ...childSnapshot.val()
               });
             }
           });
@@ -62,7 +62,6 @@ var getBooksByTitle = async (uid, title) => {
   return data;
 };
 
-//{  Authors,  Situation,  Genre,  Inactive,  Isbn,  LastUpdate,  Pages,  SubTitle,  Title,  UserKey,  Uid,  Volume,  Year}
 exports.InsertBook = async (Book) => {
   return new Promise((resolve, reject) => {
     getBooksByTitle(Book.Uid, Book.Title).then((res) => {
@@ -72,8 +71,8 @@ exports.InsertBook = async (Book) => {
         fb.database()
           .ref(BooksTableName)
           .push(Book)
-          .then(function () {
-            resolve({ Res: 200 });
+          .then(function (insertResponse) {
+            resolve({ Res: 200, BookKey: insertResponse.key});
           })
           .catch(function (error) {
             resolve({ Res: 400, Message: error });

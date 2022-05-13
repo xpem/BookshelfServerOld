@@ -27,6 +27,7 @@ exports.GetBooksByLastUpdate = async (req, res) => {
   if (uidRes.uid) {
     BooksService.getBooksByLastUpdate(uidRes.uid, lastUpdate).then(
       (dataResponse) => {
+        console.log(dataResponse.length);
         res.json(dataResponse);
       }
     );
@@ -54,7 +55,19 @@ var VerifyAddBookFields = (Book) => {
 
 exports.InsertBook = async (req, res) => {
   var idToken = req.headers["authorization"];
-  var Book = req.body;
+  var Book = ({
+    Title,
+    SubTitle,
+    Authors,
+    Volume,
+    Pages,
+    Year,
+    Inactive,
+    Rating = { Comment, Rate },
+    Situation,
+    Genre,
+    Isbn,
+  } = req.body);
   const uidRes = await GetUidByToken(idToken);
   console.log(uidRes);
 
@@ -70,8 +83,8 @@ exports.InsertBook = async (req, res) => {
 
     if (VerifyAddBookFields(Book)) {
       InsertBookRes = await BooksService.InsertBook(Book);
-      if (InsertBookRes.Res == 200) {
-        res.status(200).send();
+      if (InsertBookRes == 200) {
+        res.status(200).json({ BookKey: InsertBookRes.BookKey});
       } else {
         res.status(InsertBookRes.Res).json({ message: InsertBookRes.Message });
       }
@@ -86,7 +99,19 @@ exports.InsertBook = async (req, res) => {
 exports.UpdateBook = async (req, res) => {
   var idToken = req.headers["authorization"];
   var bookKey = req.params.bookKey;
-  var Book = req.body;
+  var Book = ({
+    Title,
+    SubTitle,
+    Authors,
+    Volume,
+    Pages,
+    Year,
+    Inactive,
+    Rating = { Comment, Rate },
+    Situation,
+    Genre,
+    Isbn,
+  } = req.body);
 
   const uidRes = await GetUidByToken(idToken);
   if (uidRes.uid) {
@@ -94,7 +119,7 @@ exports.UpdateBook = async (req, res) => {
     Book.LastUpdate = new Date().toISOString();
 
     if (VerifyAddBookFields(Book)) {
-      UpdateBookRes = await BooksService.UpdateBook(Book,bookKey);
+      UpdateBookRes = await BooksService.UpdateBook(Book, bookKey);
       if (UpdateBookRes.Res == 200) {
         res.status(200).send();
       } else {
