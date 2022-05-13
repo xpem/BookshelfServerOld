@@ -83,7 +83,8 @@ exports.InsertBook = async (req, res) => {
 
     if (VerifyAddBookFields(Book)) {
       InsertBookRes = await BooksService.InsertBook(Book);
-      if (InsertBookRes == 200) {
+      
+      if (InsertBookRes.Res == 200) {
         res.status(200).json({ BookKey: InsertBookRes.BookKey});
       } else {
         res.status(InsertBookRes.Res).json({ message: InsertBookRes.Message });
