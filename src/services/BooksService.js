@@ -19,7 +19,7 @@ exports.getBooksByLastUpdate = async (uid, lastUpdate) => {
               data.push({
                 BookKey: childSnapshot.key,
                 ...childSnapshot.val(),
-              });
+              }); 
             }
           });
         } else {

@@ -1,8 +1,11 @@
 const express = require("express");
 const BooksController = require("./Controllers/BooksController");
-const Copy = require("./services/CopyDatabase");
 const router = express.Router();
+//const Copy = require("./services/CopyDatabase");
 require("dotenv/config");
+
+//middleware
+router.use(BooksController.ValidateUidByToken);
 
 router.get("/", async (req, res) => {
   return res.status(200).json({
@@ -23,13 +26,5 @@ router.get("/GetBooksByLastUpdate", BooksController.GetBooksByLastUpdate);
 router.post("/InsertBook", BooksController.InsertBook);
 
 router.put("/UpdateBook/:bookKey", BooksController.UpdateBook);
-
-// router.get("/Login", async (req, res) => {
-//   // UsersService.GetUserByNickAndPassworld("EMANUEL","6789").then((result) => console.log(result))
-// });
-
-// router.post("/CreateUserProfile", UserController.CreateUserProfile);
-
-// router.post("/GetUserProfile", UserController.GetUserProfile);
 
 module.exports = router;
