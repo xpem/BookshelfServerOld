@@ -72,28 +72,27 @@ exports.InsertBook = async (req, res) => {
     Situation,
     Genre,
     Isbn,
+    Cover,
   } = req.body);
 
-  
-    if (!Book.hasOwnProperty("Inactive")) {
-      Book.Inactive = false;
-    }
+  if (!Book.hasOwnProperty("Inactive")) {
+    Book.Inactive = false;
+  }
 
-    Book.Uid = req.uid;
-    Book.LastUpdate = new Date().toISOString();
+  Book.Uid = req.uid;
+  Book.LastUpdate = new Date().toISOString();
 
-    if (VerifyAddBookFields(Book)) {
-      InsertBookRes = await BooksService.InsertBook(Book);
+  if (VerifyAddBookFields(Book)) {
+    InsertBookRes = await BooksService.InsertBook(Book);
 
-      if (InsertBookRes.Res == 200) {
-        res.status(200).json({ BookKey: InsertBookRes.BookKey });
-      } else {
-        res.status(InsertBookRes.Res).json({ message: InsertBookRes.Message });
-      }
+    if (InsertBookRes.Res == 200) {
+      res.status(200).json({ BookKey: InsertBookRes.BookKey });
     } else {
-      res.status(400).json({ message: "Invalid Format" });
+      res.status(InsertBookRes.Res).json({ message: InsertBookRes.Message });
     }
-
+  } else {
+    res.status(400).json({ message: "Invalid Format" });
+  }
 };
 
 exports.UpdateBook = async (req, res) => {
@@ -110,19 +109,20 @@ exports.UpdateBook = async (req, res) => {
     Situation,
     Genre,
     Isbn,
+    Cover
   } = req.body);
 
-    Book.Uid = req.uid;
-    Book.LastUpdate = new Date().toISOString();
+  Book.Uid = req.uid;
+  Book.LastUpdate = new Date().toISOString();
 
-    if (VerifyAddBookFields(Book)) {
-      UpdateBookRes = await BooksService.UpdateBook(Book, bookKey);
-      if (UpdateBookRes.Res == 200) {
-        res.status(200).send();
-      } else {
-        res.status(UpdateBookRes.Res).json({ message: UpdateBookRes.Message });
-      }
+  if (VerifyAddBookFields(Book)) {
+    UpdateBookRes = await BooksService.UpdateBook(Book, bookKey);
+    if (UpdateBookRes.Res == 200) {
+      res.status(200).send();
     } else {
-      res.status(400).json({ message: "Invalid Format" });
+      res.status(UpdateBookRes.Res).json({ message: UpdateBookRes.Message });
     }
+  } else {
+    res.status(400).json({ message: "Invalid Format" });
+  }
 };
