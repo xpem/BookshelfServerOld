@@ -73,6 +73,7 @@ exports.InsertBook = async (req, res) => {
     Genre,
     Isbn,
     Cover,
+    GoogleId,
   } = req.body);
 
   if (!Book.hasOwnProperty("Inactive")) {
@@ -109,7 +110,8 @@ exports.UpdateBook = async (req, res) => {
     Situation,
     Genre,
     Isbn,
-    Cover
+    Cover,
+    GoogleId,
   } = req.body);
 
   Book.Uid = req.uid;
