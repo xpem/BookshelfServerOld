@@ -14,7 +14,7 @@ exports.getBooksByLastUpdate = async (uid, lastUpdate) => {
         if (snapshot != null) {
           snapshot.forEach((childSnapshot) => {
             //to do - remove uid from data response
-            if (childSnapshot.val().LastUpdate >= lastUpdate) {
+            if (childSnapshot.val().LastUpdate > lastUpdate) {
               console.log(childSnapshot.key);
               data.push({
                 BookKey: childSnapshot.key,
