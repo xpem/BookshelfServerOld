@@ -1,0 +1,203 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "3.0.0",
+    "title": "Bookshelf",
+    "description": ""
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Books"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Book/GetByLastUpdate": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Endpoint to get a list of books by last update",
+        "parameters": [
+          {
+            "name": "lastUpdate",
+            "in": "header",
+            "description": "2020-10-01",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/Book": {
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Endpoint to insert a book",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Insert Book.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/Book/{bookKey}": {
+      "put": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Endpoint to update a book",
+        "parameters": [
+          {
+            "name": "bookKey",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Key of book"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update Book.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Rating": {
+      "type": "object",
+      "properties": {
+        "Rate": {
+          "type": "number",
+          "example": 1
+        },
+        "Comment": {
+          "type": "string",
+          "example": "teste"
+        }
+      }
+    },
+    "Book": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string",
+          "example": "A culpa é das estrelas"
+        },
+        "SubTitle": {
+          "type": "string",
+          "example": "O Senhor dos Anéis"
+        },
+        "Authors": {
+          "type": "string",
+          "example": "Mark Lawrence"
+        },
+        "Volume": {
+          "type": "string",
+          "example": "3"
+        },
+        "Pages": {
+          "type": "number",
+          "example": 414
+        },
+        "Year": {
+          "type": "number",
+          "example": 2012
+        },
+        "Inactive": {
+          "type": "boolean",
+          "example": false
+        },
+        "Rating": {
+          "$ref": "#/definitions/Rating"
+        },
+        "Cover": {
+          "type": "string",
+          "example": "http://books.google.com/books/content?id=pXNyQbhXDZcC&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE710kZ-I-tnprlqOVyL010BGOUCOPLtNwm8nKMjbU50QjNgxmyZ_qiVLrkjq4ucBm6R5Z9gBRiklbI5hWLp67ZliOJQpINVNVLcsTcZdN4vH8lv2cl-O4JyEjuxKWrayc_bJfbbg&source=gbs_api"
+        },
+        "Genre": {
+          "type": "string",
+          "example": "ficção científica"
+        },
+        "GoogleId": {
+          "type": "string",
+          "example": "00000"
+        },
+        "Isbn": {
+          "type": "string",
+          "example": "11111"
+        },
+        "Situation": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    }
+  }
+}

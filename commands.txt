@@ -1,0 +1,29 @@
+npm init -y
+npm i typescript -D
+npm i express
+npm i @types/express -D
+npx tsc --init
+npm i ts-node-dev -D
+npm i express-async-errors
+npm i cors
+npm i @types/cors -D
+
+//env vars
+npm i dotenv
+
+npm i body-parser
+npm i ts-node
+
+//swagger
+npm i swagger-autogen swagger-ui-express
+
+//
+npm run swagger-autogen
+
+//swagger tutorial
+https://davibaltar.medium.com/documenta%C3%A7%C3%A3o-autom%C3%A1tica-de-apis-em-node-js-eb03041c643b
+
+https://github.com/davibaltar/example-swagger-autogen
+
+
+npm install -g firebase-tools
